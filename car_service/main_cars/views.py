@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-
-# Create your views here.
+from . import models
 
 def index(request):
-    return HttpResponse('Veikia')
+    order_count = models.Order.objects.count()
+    return render(request, 'main_cars/index.html', {
+        'order_count': order_count,
+    })
     

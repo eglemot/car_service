@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}Welcome to {{ block.super }}{% endblock title %}
+{% block content %}
+<h1>Welcome!</h1>
+<p>Total Orders:</p>
+<ul>
+    <li>{{ order_count }} orders</li>
+</ul>
+{% endblock content %}
