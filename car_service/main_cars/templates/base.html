@@ -8,13 +8,18 @@
     <title>{% block title %}Car Service{% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'admin/css/fonts.css' %}">
     <link rel="stylesheet" href="{% static 'main_cars/css/style.css' %}">
+    <style>{% block style %}{% endblock style %}</style>
 </head>
 <body>
     <header>
         <a><img src="https://img.freepik.com/free-vector/car-service-logo-design_23-2149750702.jpg?w=1380&t=st=1677080437~exp=1677081037~hmac=756534ca1b893229447fd0574a2f218a24807355e338e7439ff45b82de682698" width="100" height="60" alt="car service logo"></a>
-        <ul>
-            <li><a href="{% url 'index' %}">Home</a></li>
-        </ul>
+        <nav>
+            <ul>
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'services' %}">Services</a></li>
+                <li><a href="{% url 'orders' %}">Orders</a></li>
+            </ul>
+        </nav>
     </header>
     <main>{% block content %}{% endblock content %}</main>
     <footer>&copy; 2023 Car Service</footer>

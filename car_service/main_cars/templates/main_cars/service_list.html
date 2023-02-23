@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Services in {{ block.super }}{% endblock title %}
+{% block content %}
+  <h1>Services</h1>
+  <div class="services-container">
+    {% if services %}
+      <table>
+        <thead>
+          <tr>
+            <th>Service Name</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for service in services %}
+            <tr>
+              <td>{{ service.name }}</td>
+              <td>${{ service.price }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="no-services-message">There are no services yet</p>
+    {% endif %}
+  </div>
+{% endblock content %}
+{% block styles %}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    color: #7DB9B6;
+    background-color: #7DB9B6;
+    margin-bottom: 20px;
+  }
+  th, td {
+    text-align: left;
+    padding: 12px;
+    border: 1px solid #7DB9B6;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+  tr:nth-child(even) {
+    background-color: #7DB9B6;
+  }
+  tr:hover {
+    background-color: #ddd;
+  }
+  td a {
+    color: #333;
+    text-decoration: none;
+  }
+  td a:hover {
+    color: #008CBA;
+    text-decoration: underline;
+  }
+  td:last-child {
+    text-align: center;
+  }
+{% endblock styles %}
+

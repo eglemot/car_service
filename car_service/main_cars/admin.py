@@ -15,10 +15,14 @@ class OrderLinesInline(admin.TabularInline):
     extra = 0
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('car_details', 'date', 'order_total')
+    list_display = ('car', 'date', 'formatted_order_total', 'status')
     search_fields = ('car__customer', 'car__license_plate')
     ordering = ('-date',)
     inlines = (OrderLinesInline, )
+
+    def formatted_order_total(self, obj):
+        return f'${obj.order_total}'
+    formatted_order_total.short_description = 'Order Total'
     
     def car_details(self, obj):
         return f"{obj.car.customer} - {obj.car.license_plate} - {obj.car.model_make}"

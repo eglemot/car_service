@@ -22,15 +22,22 @@ class Service(models.Model):
     price = models.DecimalField(_('price'),max_digits=8, decimal_places=2)
 
     def __str__(self):
-        return f"{self.name}: {self.price}$"
+        return f"{self.name}: ${self.price}"
 
 class Order(models.Model):
     car = models.ForeignKey(Car, on_delete=models.CASCADE, verbose_name=_('car'))
     date = models.DateTimeField(_('date'), null=True, blank=True, db_index=True)
     order_total = models.DecimalField(_('order total'),max_digits=8, decimal_places=2, null=True, blank=True)
+    STATUS = (
+        ('n', _('New')),
+        ('w', _('Waiting for Authorization')),
+        ('p', _('In progress')),
+        ('c', _('Completed')),
+    )
 
+    status = models.CharField(_('status'), max_length=1, choices=STATUS, default='n')
     def __str__(self):
-        return f"{self.car}: {self.order_total}$"
+        return f"{self.car}: ${self.order_total} - status:{self.status}"
 
 class OrderLine(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_lines', verbose_name=_('order'))

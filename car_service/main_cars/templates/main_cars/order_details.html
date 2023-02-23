@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Order Details in {{ block.super }}{% endblock title %}
+{% block content %}
+  <h1>Order Details</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Service Name</th>
+        <th>Service Price</th>
+        <th>Quantity</th>
+        <th>Order Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if object.order_lines.count > 0 %}
+        {% for line in object.order_lines.all %}
+          <tr>
+            <td>{{ line.service.name }}</td>
+            <td>{{ line.service.price }}</td>
+            <td>{{ line.quantity }}</td>
+            <td>{{ line.line_total }}</td>
+          </tr>
+        {% endfor %}
+        <tr>
+          <td colspan="3" style="text-align: right;"><strong>Order Total:</strong></td>
+          <td>{{ object.order_total }}</td>
+        </tr>
+      {% else %}
+        <tr>
+          <td colspan="4">No order lines found for this order.</td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+{% endblock content %}
+{% block style %}
+table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td {
+    text-align: left;
+    padding: 8px;
+  }
+  th {
+    background-color: #ddd;
+  }
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+{% endblock style%}
+
