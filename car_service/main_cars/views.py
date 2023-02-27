@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from . import models
-from django.shortcuts import render
 from django.views import generic
 from django.db.models import Q
 from datetime import date
 
 def index(request):
     order_count = models.Order.objects.count()
+    request.session['visit_count'] = request.session.get('visit count', 0) + 1
     return render(request, 'main_cars/index.html', {
         'order_count': order_count,
     })
