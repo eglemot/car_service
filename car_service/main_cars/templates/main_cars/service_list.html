@@ -2,7 +2,6 @@
 {% block title %}Services in {{ block.super }}{% endblock title %}
 {% block content %}
   <h1>Services</h1>
-  <div class="services-container">
     {% if services %}
       <table>
         <thead>
@@ -23,15 +22,14 @@
     {% else %}
       <p class="no-services-message">There are no services yet</p>
     {% endif %}
-  </div>
 {% endblock content %}
-{% block styles %}
+{% block style %}
 table {
     border-collapse: collapse;
     width: 100%;
     font-family: Arial, sans-serif;
-    color: #7DB9B6;
-    background-color: #7DB9B6;
+    color: #4D455D;
+    background-color: #F5E9CF;
     margin-bottom: 20px;
   }
   th, td {
@@ -40,24 +38,28 @@ table {
     border: 1px solid #7DB9B6;
   }
   th {
-    background-color: #f2f2f2;
+    background-color: #E96479;
+    color: #F5E9CF;
   }
-  tr:nth-child(even) {
-    background-color: #7DB9B6;
+  tr {
+    background-color: #E96479;
+    color: #F5E9CF;
   }
   tr:hover {
-    background-color: #ddd;
+    background-color: #7DB9B6;
+    color: #4D455D;
   }
   td a {
-    color: #333;
+    color: #4D455D;
     text-decoration: none;
   }
   td a:hover {
-    color: #008CBA;
+    color: #7DB9B6;
     text-decoration: underline;
   }
   td:last-child {
     text-align: center;
   }
-{% endblock styles %}
+{% endblock style %}
+
 

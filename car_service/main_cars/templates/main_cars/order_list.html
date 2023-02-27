@@ -2,6 +2,7 @@
 {% block title %}Orders in {{ block.super }}{% endblock title %}
 {% block content %}
 <h1>Orders</h1>
+{% include 'main_cars/includes/search.html' %}
 {% if order_list.count > 0 %}
 <table>
     <thead>
@@ -33,6 +34,8 @@
       {% endfor %}
     </tbody>
   </table>
+  {% include 'main_cars/includes/paginator_pages.html' %}
+  {% include 'main_cars/includes/paginator_fpnl.html' %}
 {% else %}
     <p>There are no orders yet.</p>
 {% endif %}

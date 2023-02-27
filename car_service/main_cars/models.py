@@ -4,6 +4,8 @@ from django.utils.translation import gettext_lazy as _
 class ModelMake(models.Model):
     model = models.CharField(_('model'), max_length=255)
     make = models.CharField(_('make'),max_length=255)
+    cover = models.ImageField(_("car picture"), upload_to='main_cars/covers/', null=True, blank=True)
+    year = models.IntegerField(_('year'),max_length=255, null=True, blank=True)
 
     def __str__(self) -> str:
         return f'{self.model} {self.make}'
