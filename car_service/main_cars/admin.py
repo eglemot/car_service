@@ -3,8 +3,8 @@ from . import models
 from django.utils.translation import gettext_lazy as _
 
 class CarAdmin(admin.ModelAdmin):
-    list_display = ('license_plate','model_make','customer','vin_code')
-    search_fields = ('customer', )
+    list_display = ('license_plate','model_make','customer','vin_code', 'client')
+    search_fields = ('customer', 'client' )
 
 class ModelMakeAdmin(admin.ModelAdmin):
     list_display = ('model', 'make')
@@ -30,9 +30,14 @@ class OrderAdmin(admin.ModelAdmin):
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ('name','price')
 
+class OrderCommentAdmin(admin.ModelAdmin):
+    list_display = ('created_at', 'client', 'comment')
+    list_display_links = ('created_at', )
+
 admin.site.register(models.ModelMake, ModelMakeAdmin)
 admin.site.register(models.Car, CarAdmin)
 admin.site.register(models.Service, ServiceAdmin)
 admin.site.register(models.Order, OrderAdmin)
 admin.site.register(models.OrderLine)
+admin.site.register(models.OrderComment, OrderCommentAdmin)
 

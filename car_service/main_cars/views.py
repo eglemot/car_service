@@ -2,11 +2,13 @@ from django.shortcuts import render
 from . import models
 from django.views import generic
 from django.db.models import Q
-from datetime import date
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
+from django.urls import reverse
+from . forms import OrderCommentForm
 
 def index(request):
     order_count = models.Order.objects.count()
-    request.session['visit_count'] = request.session.get('visit count', 0) + 1
     return render(request, 'main_cars/index.html', {
         'order_count': order_count,
     })
@@ -17,26 +19,20 @@ def services(request):
         'services': services,
     })
 
-class OrderListView(generic.ListView):
+class OrderListView(LoginRequiredMixin, generic.ListView):
     model = models.Order
     paginate_by = 4
     template_name = 'main_cars/order_list.html'
 
     def get_queryset(self):
-        qs =  super().get_queryset()
-        query = self.request.GET.get('search')
-        if query:
-            qs = qs.filter(
-                Q(car__customer__icontains=query)
-            )
+        qs = super().get_queryset()
+        qs = qs.filter(car__client=self.request.user)
         return qs
 
 class ModelMakeListView(generic.ListView):
     model = models.ModelMake
     paginate_by = 6
     template_name = 'main_cars/auto_list.html'
-
-    # views.py
 
 class ModelMakeListView(generic.ListView):
     model = models.ModelMake
@@ -66,6 +62,30 @@ class ModelMakeListView(generic.ListView):
         context['years'] = years
         return context
 
-class OrderDetailView(generic.DetailView):
+class OrderDetailView(generic.edit.FormMixin, generic.DetailView):
     model = models.Order
     template_name = 'main_cars/order_details.html'
+    form_class = OrderCommentForm
+
+    def get_success_url(self) -> str:
+        return reverse('order', kwargs={'pk': self.get_object().id})
+
+    def post(self, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['order'] = self.get_object()
+        initial['client'] = self.request.user
+        return initial
+
+    def form_valid(self, form):
+        form.instance.client = self.request.user
+        form.save()
+        messages.success(self.request, 'Comment posted successfully')
+        return super().form_valid(form)

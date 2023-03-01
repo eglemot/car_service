@@ -32,6 +32,31 @@
       {% endif %}
     </tbody>
   </table>
+  <form method="post" action="{{ request.path }}" class="comment-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Comment</button>
+  </form>
+  <div class="comment-section">
+    <h2 class="comment-title">Comments</h2>
+    {% if order.comments.all %}
+        <ul class="comment-list">
+            {% for comment in order.comments.all %}
+                <li class="comment">
+                    <div class="comment-meta">
+                        <h4 class="comment-author">{{ comment.client }}</h4>
+                        <time class="comment-time">{{ comment.created_at|date:"F d, Y" }}</time>
+                    </div>
+                    <div class="comment-body">
+                        <p>{{ comment.comment }}</p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No comments yet. Be the first!</p>
+    {% endif %}
+  </div>
 {% endblock content %}
 {% block style %}
 table {
@@ -48,5 +73,91 @@ table {
   tr:nth-child(even) {
     background-color: #f2f2f2;
   }
+  .comment-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;
+  }
+  .comment-form input[type="text"],
+  .comment-form textarea {
+    border: none;
+    border-radius: 15px;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    font-size: 16px;
+    margin-top:20px;
+  }
+  
+  .comment-form input[type="text"]:focus,
+  .comment-form textarea:focus {
+    outline: none;
+    background-color: #fff;
+    box-shadow: 0px 0px 5px #ddd;
+  }
+  
+  .comment-form button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .comment-form button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+  
+  
+  /* Comment section */
+  .comment-section {
+    margin-top: 50px;
+  }
+  
+  .comment-title {
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+  
+  .comment-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .comment {
+    margin-bottom: 40px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    padding: 20px;
+  }
+  
+  .comment-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .comment-author {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .comment-time {
+    font-size: 0.9rem;
+    color: #777;
+  }
+  
+  .comment-body {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+  
 {% endblock style%}
 
