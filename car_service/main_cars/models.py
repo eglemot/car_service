@@ -84,3 +84,5 @@ class OrderComment(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+
+ #panasiai kaip komentaruose, turime pasiimti orderi ir isitikinti, kad orderis tikrai priklauso customeriui.

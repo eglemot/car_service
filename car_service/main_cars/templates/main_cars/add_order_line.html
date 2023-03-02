@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Add Order Line</h1>
+<form method="POST">
+  {% csrf_token %}
+  <div>
+    <label for="service">Service:</label>
+    <select name="service_id">
+      {% for service in services %}
+      <option value="{{ service.id }}">{{ service.name }} - ${{ service.price }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div>
+    <label for="quantity">Quantity:</label>
+    <input type="number" name="quantity" value="1" min="1">
+  </div>
+  <button type="submit">Add Line</button>
+</form>
+{% endblock %}
