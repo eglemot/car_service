@@ -1,10 +1,9 @@
 {% extends 'base.html' %}
 {% load static i18n %}
 {% block title %}{% trans "Welcome to"%} {{ block.super }}{% endblock title %}
+
 {% block content %}
-<h1>{% trans "Welcome"%}!</h1>
-    <p>{% trans "Total Orders"%}:</p>
-<ul>
-    <li>{{ order_count }} {% trans "orders"%}</li>
-</ul>
+  <video autoplay loop muted style="position: fixed;z-index: -1; top: 0; left: 0; width: 100%; height: 100%;">
+    <source src="{% static 'video/video.mp4' %}" type="video/mp4">
+  </video>
 {% endblock content %}
