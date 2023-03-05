@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% load static i18n %}
+
+{% block title %}{% trans "Deleting order line at" %} {{ block.super }}{% endblock title %}
+
+{% block content %}
+  <h1 class="page-title">{% trans "Delete order line" %}</h1>
+  <p>{% trans "Please confirm you are deleting" %} {{ object.book }}</p>
+  <form class="form" method="post" action="{{ request.path }}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="buttons">
+      <button class="confirm-btn" type="submit">{% trans "Confirm" %}</button>
+      <a class="cancel-btn" href="{% url 'order' object.order.id %}">{% trans "Changed my mind" %}</a>
+    </div>
+  </form>
+{% endblock content %}
+{% block style %}
+.page-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+  
+  .form label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .form input[type="text"],
+  .form select {
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid #ccc;
+    margin-bottom: 1rem;
+  }
+  
+  .form button {
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .form button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .form button.cancel-btn {
+    background-color: #fff;
+    color: #007bff;
+    border: 1px solid #007bff;
+  }
+  
+  .form button:hover {
+    opacity: 0.8;
+  }
+{% endblock style %}

@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
-{% load i18n %}
-{% block title %}Welcome to {{ block.super }}{% endblock title %}
+{% load static i18n %}
+{% block title %}{% trans "Welcome to"%} {{ block.super }}{% endblock title %}
 {% block content %}
-<h1>Welcome!</h1>
-<p>Total Orders:</p>
+<h1>{% trans "Welcome"%}!</h1>
+    <p>{% trans "Total Orders"%}:</p>
 <ul>
-    <li>{{ order_count }} orders</li>
+    <li>{{ order_count }} {% trans "orders"%}</li>
 </ul>
 {% endblock content %}

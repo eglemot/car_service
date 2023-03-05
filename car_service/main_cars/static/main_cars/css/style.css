@@ -246,17 +246,28 @@ nav a:hover {
   color: #8a6d3b;
   border-color: #faebcc;
 }
-label {
+.language-selector {
   display: flex;
-  flex-direction: column;
-  margin-top: 2rem;
+  align-items: center;
+  font-size: 16px;
 }
 
-  
-  
-  
-  
-  
+.language-selector label {
+  margin-right: 10px;
+}
 
+.language-selector select {
+  border: none;
+  background-color: transparent;
+  font-size: inherit;
+  cursor: pointer;
+}
 
+.language-selector option {
+  background-color: #fff;
+  color: #000;
+}
 
+.language-selector select:focus {
+  outline: none;
+}

@@ -1,20 +1,88 @@
 {% extends 'base.html' %}
-{% block content %}
-<h1>Add Order Line</h1>
-<form method="POST">
-  {% csrf_token %}
-  <div>
-    <label for="service">Service:</label>
-    <select name="service_id">
-      {% for service in services %}
-      <option value="{{ service.id }}">{{ service.name }} - ${{ service.price }}</option>
-      {% endfor %}
-    </select>
-  </div>
-  <div>
-    <label for="quantity">Quantity:</label>
-    <input type="number" name="quantity" value="1" min="1">
-  </div>
-  <button type="submit">Add Line</button>
-</form>
+
+{% block title %}
+  Add Service to Order
+  {{ block.super }}
 {% endblock %}
+
+{% block content %}
+  <h1 class="page-title">Add Service to Order</h1>
+  <form class="form" method="post" action="{{ request.path }}">
+    {% csrf_token %}
+    <div class="form-group">
+      {{ form.order.label_tag }}
+      {{ form.order }}
+    </div>
+    <div class="form-group">
+      {{ form.service.label_tag }}
+      {{ form.service }}
+    </div>
+    <div class="form-group">
+      {{ form.quantity.label_tag }}
+      {{ form.quantity }}
+    </div>
+    <button class="submit-btn" type="submit">Submit</button>
+  </form>
+{% endblock %}
+
+
+{% block style %}
+/* Page Title */
+.page-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 3rem 0;
+}
+
+/* Form */
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+  margin: 2rem 0;
+}
+
+/* Form Group */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+/* Form Input Fields */
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="number"],
+.form select {
+  padding: 0.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #e6f0e6;
+  margin-bottom: 1rem;
+}
+
+/* Form Labels */
+.form label {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+/* Submit Button */
+.submit-btn {
+  background-color: #4CAF50;
+  color: #fff;
+  font-size: 1.2rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  margin-top: 1rem;
+}
+
+.submit-btn:hover {
+  background-color: #0062cc;
+}
+{% endblock style %}
+

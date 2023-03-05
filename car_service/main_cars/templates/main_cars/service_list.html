@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
-{% block title %}Services in {{ block.super }}{% endblock title %}
+{% load static i18n %}
+{% block title %}{% trans "Services in"%}{{ block.super }}{% endblock title %}
 {% block content %}
-  <h1>Services</h1>
+  <h1>{% trans "Services"%}</h1>
     {% if services %}
       <table>
         <thead>
           <tr>
-            <th>Service Name</th>
-            <th>Price</th>
+            <th>{% trans "Service name"%}</th>
+            <th>{% trans "Price"%}</th>
           </tr>
         </thead>
         <tbody>
@@ -20,46 +21,50 @@
         </tbody>
       </table>
     {% else %}
-      <p class="no-services-message">There are no services yet</p>
+      <p class="no-services-message">{% trans "There are no services yet"%}</p>
     {% endif %}
 {% endblock content %}
 {% block style %}
+/* Define the color variables */
+:root {
+  --dark-gray: #2C3333;
+  --medium-gray: #2E4F4F;
+  --teal: #0E8388;
+  --light-teal: #CBE4DE;
+}
+
+/* Style the table */
 table {
-    border-collapse: collapse;
-    width: 100%;
-    font-family: Arial, sans-serif;
-    color: #4D455D;
-    background-color: #F5E9CF;
-    margin-bottom: 20px;
-  }
-  th, td {
-    text-align: left;
-    padding: 12px;
-    border: 1px solid #7DB9B6;
-  }
-  th {
-    background-color: #E96479;
-    color: #F5E9CF;
-  }
-  tr {
-    background-color: #E96479;
-    color: #F5E9CF;
-  }
-  tr:hover {
-    background-color: #7DB9B6;
-    color: #4D455D;
-  }
-  td a {
-    color: #4D455D;
-    text-decoration: none;
-  }
-  td a:hover {
-    color: #7DB9B6;
-    text-decoration: underline;
-  }
-  td:last-child {
-    text-align: center;
-  }
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2rem;
+}
+
+th {
+  background-color: var(--teal);
+  color: var(--light-teal);
+  text-align: left;
+  padding: 0.5rem;
+}
+
+td {
+  border: 1px solid var(--medium-gray);
+  padding: 0.5rem;
+}
+
+/* Style the "no services" message */
+.no-services-message {
+  color: var(--dark-gray);
+  font-style: italic;
+}
+
+/* Style the page header */
+h1 {
+  color: var(--teal);
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
 {% endblock style %}
 
 

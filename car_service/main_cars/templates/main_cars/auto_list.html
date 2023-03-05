@@ -1,16 +1,15 @@
 {% extends 'base.html' %}
-{% load static %}
-
+{% load static i18n %}
 {% block content %}
   <div class="gallery-container">
-    <h1 class="gallery-heading">Cars</h1>
+    <h1 class="gallery-heading">{% trans "Cars"%}</h1>
     {% include 'main_cars/includes/search.html' %}
     <form method="get" class="gallery-filter-form">
-      <label for="year_from">From(years):</label>
+      <label for="year_from">{% trans "From"%}({% trans "years"%}):</label>
       <input type="text" name="year_from" id="year_from" value="{{ request.GET.year_from }}">
-      <label for="year_to">To(years):</label>
+      <label for="year_to">{% trans "To"%}({% trans "years"%}):</label>
       <input type="text" name="year_to" id="year_to" value="{{ request.GET.year_to }}">
-      <button type="submit">Filter</button>
+      <button type="submit">{% trans "Filter"%}</button>
     </form>  
     <div class="gallery-grid">
       {% if modelmake_list.count > 0 %}
@@ -28,7 +27,7 @@
         </div>
         {% endfor %}
       {% else %}
-        <p class="no-results">There are no cars available at the moment.</p>
+        <p class="no-results">{% trans "There are no cars available at the moment"%}.</p>
       {% endif %}
     </div>
     {% include 'main_cars/includes/paginator_pages.html' %}

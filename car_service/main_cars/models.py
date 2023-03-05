@@ -12,6 +12,7 @@ class ModelMake(models.Model):
 
     def __str__(self) -> str:
         return f'{self.model} {self.make}'
+    
 
 class Car(models.Model):
     customer = models.CharField(_('customer'),max_length=255)
@@ -22,6 +23,9 @@ class Car(models.Model):
 
     def __str__(self):
         return f"{self.customer} {self.license_plate} {self.model_make}(user:{self.client})"
+    class Meta:
+        verbose_name = _('car')
+        verbose_name_plural = _('cars')
 
 class Service(models.Model):
     name = models.CharField(_('service name'),max_length=255)
@@ -29,6 +33,10 @@ class Service(models.Model):
 
     def __str__(self):
         return f"{self.name}: ${self.price}"
+    
+    class Meta:
+        verbose_name = _('service')
+        verbose_name_plural = _('services')
 
 class Order(models.Model):
     car = models.ForeignKey(Car, on_delete=models.CASCADE, verbose_name=_('car'))
@@ -44,6 +52,10 @@ class Order(models.Model):
     status = models.CharField(_('status'), max_length=1, choices=STATUS, default='n')
     def __str__(self):
         return f"{self.car}: ${self.order_total} - status:{self.status}"
+    
+    class Meta:
+        verbose_name = _('order')
+        verbose_name_plural = _('orders')
 
 class OrderLine(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_lines', verbose_name=_('order'))
@@ -58,9 +70,20 @@ class OrderLine(models.Model):
         super().save(*args, **kwargs)
         self.order.order_total = sum(line.line_total for line in self.order.order_lines.all())
         self.order.save()
+    
+    def delete(self, using=None, keep_parents=True):
+        order = self.order
+        result = super().delete(using, keep_parents)
+        order.order_total = sum(line.line_total for line in self.order.order_lines.all())
+        order.save()
+        return result
 
     def __str__(self):
         return f"{self.order.car}: {self.service.name} ({self.quantity}) - {self.line_total}$"
+    
+    class Meta:
+        verbose_name = _('orderline')
+        verbose_name_plural = _('orderlines')
 
 class OrderComment(models.Model):
     order = models.ForeignKey(
@@ -85,4 +108,3 @@ class OrderComment(models.Model):
     class Meta:
         ordering = ['-created_at']
 
- #panasiai kaip komentaruose, turime pasiimti orderi ir isitikinti, kad orderis tikrai priklauso customeriui.

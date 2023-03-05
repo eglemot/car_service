@@ -1,19 +1,20 @@
 {% extends 'base.html' %}
-{% block title %}Orders in {{ block.super }}{% endblock title %}
+{% load static i18n %}
+{% block title %}{% trans "Orders in"%} {{ block.super }}{% endblock title %}
 {% block content %}
-<h1>My Orders</h1>
+<h1>{% trans "My Orders"%}</h1>
 {% include 'main_cars/includes/search.html' %}
 {% if order_list.count > 0 %}
 <table>
     <thead>
       <tr>
-        <th>Date</th>
-        <th>Customer</th>
-        <th>License Plate</th>
-        <th>Car Model/Make</th>
-        <th>Order Total</th>
-        <th>Order Status</th>
-        <th>More Details</th>
+        <th>{% trans "Date"%}</th>
+        <th>{% trans "Customer"%}</th>
+        <th>{% trans "License plate"%}</th>
+        <th>{% trans "Car Model/Make"%}</th>
+        <th>{% trans "Order Total"%}</th>
+        <th>{% trans "Order Status"%}</th>
+        <th>{% trans "More Details"%}</th>
       </tr>
     </thead>
     <tbody>
@@ -27,17 +28,18 @@
           <td>{{ order.get_status_display}}</td>
           <td>
             <a href="{% url 'order' order.pk %}" class="button">
-              Details
+              {% trans "Details"%}
             </a>
           </td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
+  <a href="{% url 'add_order_line' %}" class="button">{% trans "Add new"%}</a>
   {% include 'main_cars/includes/paginator_pages.html' %}
   {% include 'main_cars/includes/paginator_fpnl.html' %}
 {% else %}
-    <p>There are no orders yet.</p>
+    <p>{% trans "There are no orders yet" %}.</p>
 {% endif %}
 {% endblock content %}
 {% block style %}table {
@@ -89,5 +91,6 @@
   
   .button:hover {
     background-color: #FCFFE7;
+    color: #16282b;
   }
 {% endblock style %}

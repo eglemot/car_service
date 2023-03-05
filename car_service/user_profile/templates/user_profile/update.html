@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-{% block title %}Updating {{ block.super }} profile{% endblock title %}
+{% load static i18n %}
+{% block title %}{% trans "Updating"%} {{ block.super }} profile{% endblock title %}
 {% block style %}
 .profile_form {
     padding-inline-start: 0;

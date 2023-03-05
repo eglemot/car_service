@@ -2,11 +2,13 @@ from django.shortcuts import render, get_object_or_404, redirect
 from . import models
 from django.views import generic
 from django.db.models import Q
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.urls import reverse
 from . forms import OrderCommentForm
+from . forms import OrderLineForm
 from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 
 def index(request):
     order_count = models.Order.objects.count()
@@ -90,6 +92,43 @@ class OrderDetailView(generic.edit.FormMixin, generic.DetailView):
         form.save()
         messages.success(self.request, 'Comment posted successfully')
         return super().form_valid(form)
+
+class UserOrderLineDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
+     model = models.OrderLine
+     template_name = 'main_cars/delete_order_line.html'
+
+     def get_success_url(self) -> str:
+         return reverse_lazy('order', kwargs = {'pk': self.get_object().order.pk})
+
+     def test_func(self):
+         return self.get_object().order.car.client == self.request.user
+
+     def form_valid(self, form):
+         messages.success(self.request, _('Successfully deleted order line'))
+         return super().form_valid(form)
+
+class UserOrderLineCreateView(LoginRequiredMixin, generic.CreateView):
+    model = models.OrderLine
+    template_name = 'main_cars/add_order_line.html'
+    form_class = OrderLineForm
+    success_url = reverse_lazy('user_orders')
+    
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['status'] = 'n'
+        return initial
+
+    def form_valid(self, form):
+        form.instance.client = self.request.user
+        form.instance.status = 'n'
+        messages.success(self.request, f' successfully created new order line: {form.instance}')
+        return super().form_valid(form)
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['client'] = self.request.user
+        return kwargs
+
 
 
 
